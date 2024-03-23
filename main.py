@@ -1,20 +1,21 @@
 import streamlit as st
-import openai
+from openai import OpenAI
 import json
 import pandas as pd
 import os
+client = OpenAI()
 
 
 def extract_keywords(text):
     prompt = get_prompt_keywords() + text
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
     model="gpt-3.5-turbo",
     messages=[
         {"role": "user", "content": prompt}
     ],
     headers={"Authorization": f"Bearer {os.environ.get('OPENAI_API_KEY')}"}
     )
-    content = response.choices[0].message.content
+    content = response.choices[0].message
     try:
         data = json.loads(content)
         return pd.DataFrame(data["Key Phrases"], columns=["Key Phrases"])
