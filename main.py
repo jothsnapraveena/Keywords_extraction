@@ -1,14 +1,14 @@
 import streamlit as st
-from openai import OpenAI
+import openai
 import json
 import pandas as pd
 import os
-client = OpenAI()
+
 
 
 def extract_keywords(text):
     prompt = get_prompt_keywords() + text
-    response = client.chat.completions.create(
+    response = openai.ChatCompletion.create(
     model="gpt-3.5-turbo",
     messages=[
         {"role": "user", "content": prompt}
