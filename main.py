@@ -4,18 +4,21 @@ import json
 import pandas as pd
 import os
 
+from openai import Client
 
+client = Client(os.environ.get("OPENAI_API_KEY"))
 
 def extract_keywords(text):
     prompt = get_prompt_keywords() + text
-    response = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo",
-    messages=[
-        {"role": "user", "content": prompt}
-    ],
-    headers={"Authorization": f"Bearer {os.environ.get('OPENAI_API_KEY')}"}
+    response = client.create_completion(
+        model="gpt-3.5-turbo",
+        prompt=prompt,
+        max_tokens=150,  # Adjust as needed
+        n=1,
+        stop=None,
+        temperature=0.7,
     )
-    content = response.choices[0].message
+    content = response.choices[0].text.strip()
     try:
         data = json.loads(content)
         return pd.DataFrame(data["Key Phrases"], columns=["Key Phrases"])
