@@ -4,7 +4,7 @@ from openai import Client
 import json
 import pandas as pd
 import os
-openai_api_key = st.secrets["openai_api_key"]
+openai_api_key = st.secrets["OPENAI_API_KEY"]
 client = Client(openai_api_key)
 def extract_keywords(text):
     prompt = get_prompt_keywords() + text
