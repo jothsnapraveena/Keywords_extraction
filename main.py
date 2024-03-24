@@ -1,11 +1,15 @@
 import streamlit as st
-import openai
 from openai import Client
 import json
 import pandas as pd
 import os
+
+# Get the OpenAI API key from Streamlit secrets
 openai_api_key = st.secrets["OPENAI_API_KEY"]
+
+# Initialize the OpenAI client
 client = Client(openai_api_key)
+
 def extract_keywords(text):
     prompt = get_prompt_keywords() + text
     response = client.create_completion(
@@ -41,8 +45,6 @@ col1, col2 = st.columns([3, 2])
 # Initialize DataFrame with default values
 keywords = pd.DataFrame(columns=["Key Phrases"])
 
-
-
 # Display UI components in the respective columns
 with col1:
     st.title("Keywords Extraction")
@@ -57,5 +59,3 @@ with col2:
                      column_config={"Key Phrases": st.column_config.Column(width=300)},
                      hide_index=True
                      )
-
-
