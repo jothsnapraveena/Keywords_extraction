@@ -1,11 +1,12 @@
 import streamlit as st
 import openai
+from openai import Client
 import json
 import pandas as pd
 import os
-
+openai_api_key = st.secrets["openai_api_key"]
+client = Client(openai_api_key)
 def extract_keywords(text):
-    client = Client(os.environ.get("OPENAI_API_KEY"))  # Get API key within the function
     prompt = get_prompt_keywords() + text
     response = client.create_completion(
         model="gpt-3.5-turbo",
