@@ -4,11 +4,8 @@ import json
 import pandas as pd
 import os
 
-from openai import Client
-
-client = Client(os.environ.get("OPENAI_API_KEY"))
-
 def extract_keywords(text):
+    client = Client(os.environ.get("OPENAI_API_KEY"))  # Get API key within the function
     prompt = get_prompt_keywords() + text
     response = client.create_completion(
         model="gpt-3.5-turbo",
